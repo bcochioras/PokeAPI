@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 final class PokeFeedCell: UITableViewCell {
-    let horizontalStack: UIStackView = {
+    private let horizontalStack: UIStackView = {
         let temp = UIStackView(axis: .horizontal)
         temp.spacing = 8
         temp.distribution = .fill
@@ -21,12 +21,12 @@ final class PokeFeedCell: UITableViewCell {
         let temp = StackLabel()
         return temp
     }()
+
     private let identifierLabel: StackLabel = {
         let temp = StackLabel()
         temp.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         temp.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        temp.setContentHuggingPriority(.required,
-                                       for: .vertical)
+        temp.setContentHuggingPriority(.required, for: .vertical)
         return temp
     }()
     
@@ -41,20 +41,16 @@ final class PokeFeedCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureFrom(pokemon: PokemonsResponse.Pokemon) {
+    func configure(from pokemon: PokemonsResponse.Pokemon) {
         identifierLabel.text = pokemon.url?.lastPathComponent
-        nameLabel.text = pokemon.name?.capitalized
+        nameLabel.text = pokemon.name
     }
     
     private func setupLayout() {
-        
         contentView.addSubview(horizontalStack)
         horizontalStack.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 8,
-                                                             left: 16,
-                                                             bottom: 8,
-                                                             right: 8))
-            make.height.equalTo(44)
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 8))
+            make.height.equalTo(44).priority(999)
         }
         horizontalStack.addArrangedSubview(identifierLabel)
         horizontalStack.addArrangedSubview(nameLabel)

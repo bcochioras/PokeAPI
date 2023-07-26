@@ -21,7 +21,8 @@ struct PokemonsResponse: Decodable {
     }
     
     struct Pokemon: Decodable {
-        let name: String?
+        @Capitalized
+        var name: String?
         let url: URL?
         
         var detailed: PokemonDetailed?
@@ -29,6 +30,13 @@ struct PokemonsResponse: Decodable {
         enum CodingKeys: String, CodingKey {
             case name
             case url
+        }
+
+
+        init(from decoder:Decoder) throws {
+            let values = try decoder.container(keyedBy: CodingKeys.self)
+            name = try values.decodeIfPresent(String.self, forKey: .name)
+            url = try values.decode(URL.self, forKey: .url)
         }
     }
 }

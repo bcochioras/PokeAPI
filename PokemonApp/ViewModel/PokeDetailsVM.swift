@@ -6,31 +6,30 @@
 //
 
 import Foundation
-import RxSwift
-import RxCocoa
+import Combine
 
 final class PokeDetailsVM {
     
     private let requestManager = PokeRequestManager()
-    let disposeBag = DisposeBag()
+    private var fetchDetailsTask: Task<Void, Error>?
     
-    private let pokemon: BehaviorRelay<PokemonsResponse.Pokemon>
-    var pokemonObservable: Driver<PokemonsResponse.Pokemon> {
-        return pokemon.asDriver()
+    private let pokemon: CurrentValueSubject<PokemonsResponse.Pokemon, Never>
+    var pokemonObservable: AnyPublisher<PokemonsResponse.Pokemon, Never> {
+        pokemon.eraseToAnyPublisher()
     }
     
-    private let isLoading = BehaviorRelay<Bool>(value: false)
-    var isLoadingObservable: Driver<Bool> {
-        return isLoading.asDriver()
+    private let isLoading = CurrentValueSubject<Bool, Never>(false)
+    var isLoadingObservable: AnyPublisher<Bool, Never> {
+        isLoading.eraseToAnyPublisher()
     }
     
-    private let serverError = BehaviorRelay<Error?>(value: nil)
-    var serverErrorObservable: Driver<Error?> {
-        return serverError.asDriver()
+    private let serverError = CurrentValueSubject<Error?, Never>(nil)
+    var serverErrorObservable: AnyPublisher<Error?, Never> {
+        serverError.eraseToAnyPublisher()
     }
     
     init(pokemon: PokemonsResponse.Pokemon) {
-        self.pokemon = BehaviorRelay<PokemonsResponse.Pokemon>(value: pokemon)
+        self.pokemon = CurrentValueSubject<PokemonsResponse.Pokemon, Never>(pokemon)
     }
     
     func loadDetails() {
@@ -38,20 +37,25 @@ final class PokeDetailsVM {
               let url = pokemon.value.url else {
             return
         }
-        isLoading.accept(true)
-        requestManager.getPokemonsFrom(url: url) { [weak self] response in
-            guard let self = self else {
+        isLoading.send(true)
+        fetchDetailsTask = Task.detached(priority: .background) { [weak self] in
+            guard let self else {
                 return
             }
-            switch response {
-            case .failure(let error):
-                self.serverError.accept(error)
-            case .success(let details):
+            do {
+                let details = try await self.requestManager.getPokemonsFrom(url: url)
                 var temp = self.pokemon.value
                 temp.detailed = details
-                self.pokemon.accept(temp)
+                self.pokemon.send(temp)
+            } catch {
+                self.serverError.send(error)
             }
-            self.isLoading.accept(false)
+            self.isLoading.send(false)
         }
+    }
+
+
+    deinit {
+        fetchDetailsTask?.cancel()
     }
 }

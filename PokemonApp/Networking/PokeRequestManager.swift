@@ -7,70 +7,56 @@
 
 import Foundation
 import Moya
+import Combine
 
-struct PokeRequestManager {
-    
-    enum Response<SuccessResponse, FailureResponse> {
-        case success(SuccessResponse)
-        case failure(FailureResponse)
-    }
+
+final class PokeRequestManager {
+    private static let decoder: JSONDecoder = {
+        let temp = JSONDecoder()
+        temp.keyDecodingStrategy = .convertFromSnakeCase
+        return temp
+    }()
     
     private let provider = MoyaProvider<PokeAPI>(plugins: [
-        NetworkLoggerPlugin(configuration: NetworkLoggerPlugin.Configuration(logOptions: .verbose))
+//        NetworkLoggerPlugin(configuration: NetworkLoggerPlugin.Configuration(logOptions: .formatRequestAscURL)),
+//        NetworkLoggerPlugin(configuration: NetworkLoggerPlugin.Configuration(logOptions: .errorResponseBody))
     ])
     
-    @discardableResult
-    func getPokemons(limit: Int, offset: Int, completion: @escaping (Response<PokemonsResponse, Error>) -> Void) -> Cancellable {
-        provider.request(PokeAPI.getPokemons(limit: limit, offset: offset), completion: { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let response = try response.map(PokemonsResponse.self)
-                    completion(.success(response))
-                } catch let error {
-                    completion(.failure(error))
+
+    func getPokemons(limit: Int, offset: Int)  async throws -> PokemonsResponse {
+        try await withCheckedThrowingContinuation { [weak self] continuation in
+            self?.provider.request(PokeAPI.getPokemons(limit: limit, offset: offset)) { result in
+                switch result {
+                case .success(let response):
+                    do {
+                        let response = try response.map(PokemonsResponse.self)
+                        continuation.resume(returning: response)
+                    } catch let error {
+                        continuation.resume(throwing: error)
+                    }
+                case .failure(let error):
+                    continuation.resume(throwing: error)
                 }
-            case .failure(let error):
-                completion(.failure(error))
             }
-        })
+        }
     }
-    
-    @discardableResult
-    func getPokemonDetails(id: Int, completion: @escaping (Response<PokemonDetailed, Error>) -> Void) -> Cancellable {
-        provider.request(PokeAPI.getPokemonDetails(id: id), completion: { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let response = try response.map(PokemonDetailed.self, using: decoder)
-                    completion(.success(response))
-                } catch let error {
-                    completion(.failure(error))
+
+
+    func getPokemonsFrom(url: URL) async throws -> PokemonDetailed {
+        try await withCheckedThrowingContinuation { [weak self] continuation in
+            self?.provider.request(PokeAPI.getPokemonsFrom(url: url)) { result in
+                switch result {
+                case .success(let response):
+                    do {
+                        let response = try response.map(PokemonDetailed.self, using: Self.decoder)
+                        continuation.resume(returning: response)
+                    } catch let error {
+                        continuation.resume(throwing: error)
+                    }
+                case .failure(let error):
+                    continuation.resume(throwing: error)
                 }
-            case .failure(let error):
-                completion(.failure(error))
             }
-        })
-    }
-    
-    @discardableResult
-    func getPokemonsFrom(url: URL, completion: @escaping (Response<PokemonDetailed, Error>) -> Void) -> Cancellable {
-        provider.request(PokeAPI.getPokemonsFrom(url: url), completion: { result in
-            switch result {
-            case .success(let response):
-                do {
-                    let decoder = JSONDecoder()
-                    decoder.keyDecodingStrategy = .convertFromSnakeCase
-                    let response = try response.map(PokemonDetailed.self, using: decoder)
-                    completion(.success(response))
-                } catch let error {
-                    completion(.failure(error))
-                }
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        })
+        }
     }
 }

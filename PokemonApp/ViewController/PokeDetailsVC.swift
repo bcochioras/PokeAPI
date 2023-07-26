@@ -7,56 +7,10 @@
 
 import Foundation
 import UIKit
-import RxSwift
-import RxCocoa
+import Combine
 import AnyCodable
 import Kingfisher
 
-fileprivate final class TitleValueStack: UIView {
-
-    let titleLabel: StackLabel = {
-        let temp = StackLabel()
-        return temp
-    }()
-    let valueLabel: StackLabel = {
-        let temp = StackLabel()
-        temp.numberOfLines = 0
-        return temp
-    }()
-    let stackView: UIStackView = {
-        let temp = UIStackView(axis: .vertical)
-        temp.spacing = 8
-        temp.alignment = .leading
-        return temp
-    }()
-    
-    init(title: String?, value: String?) {
-        super.init(frame: .zero)
-        
-        titleLabel.text = title?.capitalizingFirstLetter()
-        valueLabel.text = value
-        
-        setupLayout()
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func setupLayout() {
-        addSubview(stackView)
-        stackView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 8,
-                                                             left: 8,
-                                                             bottom: 8,
-                                                             right: 8))
-        }
-        
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(valueLabel)
-    }
-}
 
 final class PokeDetailsVC: UIViewController {
     
@@ -66,7 +20,7 @@ final class PokeDetailsVC: UIViewController {
         temp.kf.indicatorType = .activity
         return temp
     }()
-    let disposeBag = DisposeBag()
+    private var cancellables = Set<AnyCancellable>()
     private let scrollView = UIScrollView()
     private let scrollWrapper = UIView()
     private let detailsStack: UIStackView = {
@@ -74,8 +28,13 @@ final class PokeDetailsVC: UIViewController {
         temp.spacing = 8
         return temp
     }()
+    private let activityIndicator: UIActivityIndicatorView = {
+        let temp = UIActivityIndicatorView()
+        temp.hidesWhenStopped = true
+        return temp
+    }()
     
-    let viewModel: PokeDetailsVM
+    private let viewModel: PokeDetailsVM
     private let verticalStackView: UIStackView = {
         let temp = UIStackView()
         temp.translatesAutoresizingMaskIntoConstraints = false
@@ -92,33 +51,91 @@ final class PokeDetailsVC: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
     
     override func loadView() {
         super.loadView()
         
+        setupView()
+    }
+
+    private func setupObservables() {
+        viewModel.isLoadingObservable
+            .receive(on: DispatchQueue.main)
+            .sink { [unowned self] isLoading in
+                isLoading ? self.activityIndicator.startAnimating() : self.activityIndicator.stopAnimating()
+            }.store(in: &cancellables)
+
+        viewModel.pokemonObservable
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] pokemon in
+                guard let self = self,
+                      let detailed = pokemon.detailed else {
+                    return
+                }
+                self.title = pokemon.name
+                self.imageView.kf.setImage(with: detailed.sprites?.frontDefault)
+                self.detailsStack.arrangedSubviews.forEach({$0.removeFromSuperview()})
+                pokemon.detailed?.dictionary?.forEach({ (key, value) in
+                    switch value {
+                    case is [Any]: break
+                    case let value as [AnyHashable: Any]:
+                        value.forEach { (key, value) in
+                            if let key = key as? String {
+                                let stack = TitleValueStack(title: key, value: String(describing: value))
+                                self.detailsStack.addArrangedSubview(stack)
+                            }
+                        }
+                        break
+                    default:
+                        let stack = TitleValueStack(title: key, value: String(describing: value))
+                        self.detailsStack.addArrangedSubview(stack)
+                    }
+                })
+            }.store(in: &cancellables)
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupObservables()
+        viewModel.loadDetails()
+    }
+}
+
+
+// MARK: - UI Setup
+
+private extension PokeDetailsVC {
+    func setupView() {
         view.backgroundColor = .white
+        view.addSubview(activityIndicator)
+        activityIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
+
         scrollView.addSubview(scrollWrapper)
         scrollWrapper.snp.makeConstraints { (make) in
             make.edges.equalToSuperview()
             make.width.equalTo(view)
             make.height.greaterThanOrEqualTo(view)
         }
-        
+
         scrollWrapper.addSubview(verticalStackView)
         verticalStackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        
+
         verticalStackView.addArrangedSubview(imageView)
         imageView.snp.makeConstraints { make in
-            make.height.width.equalTo(200)
+            make.height.width.equalTo(200).priority(999)
         }
-        
+
         let detailStackContainer = UIView()
         detailStackContainer.addSubview(detailsStack)
         detailsStack.snp.makeConstraints { make in
@@ -127,33 +144,5 @@ final class PokeDetailsVC: UIViewController {
         verticalStackView.addArrangedSubview(detailStackContainer)
         // filler
         verticalStackView.addArrangedSubview(UIView())
-    }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        viewModel.pokemonObservable
-            .drive { [weak self] pokemon in
-                guard let self = self,
-                      let detailed = pokemon.detailed else {
-                    return
-                }
-                self.title = pokemon.name?.capitalized
-                self.imageView.kf.setImage(with: detailed.sprites?.frontDefault)
-                self.detailsStack.arrangedSubviews.forEach({$0.removeFromSuperview()})
-                pokemon.detailed?.dictionary?.forEach({ (key, value) in
-                    switch value {
-                    case is [Any]: fallthrough
-                    case is [AnyHashable: Any]:
-                        break
-                    default:
-                        let stack = TitleValueStack(title: key,
-                                                value: String(describing: value))
-                        self.detailsStack.addArrangedSubview(stack)
-                    }
-                })
-            }.disposed(by: disposeBag)
-        
-        viewModel.loadDetails()
     }
 }

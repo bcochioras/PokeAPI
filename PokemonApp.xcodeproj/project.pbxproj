@@ -29,9 +29,6 @@
 		5060845F27F9A25A00FB2359 /* PokemonDetailed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505B87A427F8D1EA008AE828 /* PokemonDetailed.swift */; };
 		5060846027F9A54500FB2359 /* PokeRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5060845627F99A2A00FB2359 /* PokeRequestManager.swift */; };
 		5060846127F9B4FB00FB2359 /* PokeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5060845727F99A2A00FB2359 /* PokeAPI.swift */; };
-		5063B72727F815CE00AFB12F /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 5063B72627F815CE00AFB12F /* RxCocoa */; };
-		5063B72927F815CE00AFB12F /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 5063B72827F815CE00AFB12F /* RxRelay */; };
-		5063B72B27F815CE00AFB12F /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 5063B72A27F815CE00AFB12F /* RxSwift */; };
 		5063B73027F82BD100AFB12F /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 5063B72F27F82BD100AFB12F /* SnapKit */; };
 		5063B73527F82EAA00AFB12F /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 5063B73427F82EAA00AFB12F /* Kingfisher */; };
 		5063B74027F8561500AFB12F /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 5063B73F27F8561500AFB12F /* Collections */; };
@@ -45,8 +42,11 @@
 		50EC378127F77327007500BB /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 50EC378027F77327007500BB /* Alamofire */; };
 		50EC378827F77882007500BB /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 50EC378727F77882007500BB /* CombineMoya */; };
 		50EC378A27F77882007500BB /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 50EC378927F77882007500BB /* Moya */; };
-		50EC379027F78DBE007500BB /* RequestManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EC378F27F78DBE007500BB /* RequestManagerTests.swift */; };
 		50EC379527F790BD007500BB /* PokemonsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EC379427F790BD007500BB /* PokemonsResponse.swift */; };
+		51AB23B72A70F55D00867EC2 /* Capitalized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AB23B62A70F55D00867EC2 /* Capitalized.swift */; };
+		51C459022A6FA491000A2301 /* TitleValueStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C459012A6FA491000A2301 /* TitleValueStack.swift */; };
+		51C459042A6FC2A2000A2301 /* CombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C459032A6FC2A2000A2301 /* CombineTests.swift */; };
+		51C459072A7016DD000A2301 /* TaskTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C459062A7016DC000A2301 /* TaskTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,8 +93,11 @@
 		50EC376727F76EF0007500BB /* PokemonAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PokemonAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		50EC376B27F76EF0007500BB /* PokemonAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonAppUITests.swift; sourceTree = "<group>"; };
 		50EC376D27F76EF0007500BB /* PokemonAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		50EC378F27F78DBE007500BB /* RequestManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManagerTests.swift; sourceTree = "<group>"; };
 		50EC379427F790BD007500BB /* PokemonsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonsResponse.swift; sourceTree = "<group>"; };
+		51AB23B62A70F55D00867EC2 /* Capitalized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Capitalized.swift; sourceTree = "<group>"; };
+		51C459012A6FA491000A2301 /* TitleValueStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleValueStack.swift; sourceTree = "<group>"; };
+		51C459032A6FC2A2000A2301 /* CombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombineTests.swift; sourceTree = "<group>"; };
+		51C459062A7016DC000A2301 /* TaskTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,8 +106,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5063B74427F8561500AFB12F /* OrderedCollections in Frameworks */,
-				5063B72B27F815CE00AFB12F /* RxSwift in Frameworks */,
-				5063B72927F815CE00AFB12F /* RxRelay in Frameworks */,
 				50EC378827F77882007500BB /* CombineMoya in Frameworks */,
 				505B87AB27F8D5E8008AE828 /* AnyCodable in Frameworks */,
 				5063B73027F82BD100AFB12F /* SnapKit in Frameworks */,
@@ -112,7 +113,6 @@
 				50EC378127F77327007500BB /* Alamofire in Frameworks */,
 				5063B74027F8561500AFB12F /* Collections in Frameworks */,
 				5063B74227F8561500AFB12F /* DequeModule in Frameworks */,
-				5063B72727F815CE00AFB12F /* RxCocoa in Frameworks */,
 				50EC378A27F77882007500BB /* Moya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -161,6 +161,7 @@
 			children = (
 				5060845A27F99A6500FB2359 /* StackLabel.swift */,
 				5060844E27F9996600FB2359 /* PokeFeedCell.swift */,
+				51C459012A6FA491000A2301 /* TitleValueStack.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -206,6 +207,7 @@
 		50EC374627F76EEF007500BB /* PokemonApp */ = {
 			isa = PBXGroup;
 			children = (
+				51AB23B52A70F54E00867EC2 /* PropertyWrappers */,
 				5060845527F999ED00FB2359 /* Networking */,
 				5060845027F999AB00FB2359 /* Configuration */,
 				5060844D27F9993F00FB2359 /* View */,
@@ -224,7 +226,8 @@
 			isa = PBXGroup;
 			children = (
 				50EC376127F76EF0007500BB /* PokemonAppTests.swift */,
-				50EC378F27F78DBE007500BB /* RequestManagerTests.swift */,
+				51C459032A6FC2A2000A2301 /* CombineTests.swift */,
+				51C459062A7016DC000A2301 /* TaskTests.swift */,
 			);
 			path = PokemonAppTests;
 			sourceTree = "<group>";
@@ -256,6 +259,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		51AB23B52A70F54E00867EC2 /* PropertyWrappers */ = {
+			isa = PBXGroup;
+			children = (
+				51AB23B62A70F55D00867EC2 /* Capitalized.swift */,
+			);
+			path = PropertyWrappers;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -276,9 +287,6 @@
 				50EC378027F77327007500BB /* Alamofire */,
 				50EC378727F77882007500BB /* CombineMoya */,
 				50EC378927F77882007500BB /* Moya */,
-				5063B72627F815CE00AFB12F /* RxCocoa */,
-				5063B72827F815CE00AFB12F /* RxRelay */,
-				5063B72A27F815CE00AFB12F /* RxSwift */,
 				5063B72F27F82BD100AFB12F /* SnapKit */,
 				5063B73427F82EAA00AFB12F /* Kingfisher */,
 				5063B73F27F8561500AFB12F /* Collections */,
@@ -361,7 +369,6 @@
 			packageReferences = (
 				50EC377F27F77327007500BB /* XCRemoteSwiftPackageReference "Alamofire" */,
 				50EC378627F77882007500BB /* XCRemoteSwiftPackageReference "Moya" */,
-				5063B72527F815CE00AFB12F /* XCRemoteSwiftPackageReference "RxSwift" */,
 				5063B72E27F82BD100AFB12F /* XCRemoteSwiftPackageReference "SnapKit" */,
 				5063B73327F82EAA00AFB12F /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				5063B73E27F8561500AFB12F /* XCRemoteSwiftPackageReference "swift-collections" */,
@@ -413,6 +420,7 @@
 				5060844327F9931100FB2359 /* UIStackViewExtension.swift in Sources */,
 				5060844C27F9992A00FB2359 /* PokeFeedVC.swift in Sources */,
 				5060843F27F9931000FB2359 /* UITableViewExtension.swift in Sources */,
+				51C459022A6FA491000A2301 /* TitleValueStack.swift in Sources */,
 				5060844027F9931000FB2359 /* EncodableExtensions.swift in Sources */,
 				505B87B127F8EBBC008AE828 /* PokeDetailsVC.swift in Sources */,
 				5060844F27F9996600FB2359 /* PokeFeedCell.swift in Sources */,
@@ -422,6 +430,7 @@
 				5060844A27F998D000FB2359 /* ArrayExtension.swift in Sources */,
 				505B87A527F8D1EA008AE828 /* PokemonDetailed.swift in Sources */,
 				5060845427F999D100FB2359 /* SceneDelegate.swift in Sources */,
+				51AB23B72A70F55D00867EC2 /* Capitalized.swift in Sources */,
 				5060845827F99A2A00FB2359 /* PokeRequestManager.swift in Sources */,
 				5060844127F9931100FB2359 /* StringExtension.swift in Sources */,
 				5060845B27F99A6500FB2359 /* StackLabel.swift in Sources */,
@@ -435,11 +444,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				5060846027F9A54500FB2359 /* PokeRequestManager.swift in Sources */,
+				51C459072A7016DD000A2301 /* TaskTests.swift in Sources */,
 				50EC376227F76EF0007500BB /* PokemonAppTests.swift in Sources */,
 				5060845F27F9A25A00FB2359 /* PokemonDetailed.swift in Sources */,
+				51C459042A6FC2A2000A2301 /* CombineTests.swift in Sources */,
 				5060846127F9B4FB00FB2359 /* PokeAPI.swift in Sources */,
 				5060845E27F9A0DF00FB2359 /* PokemonsResponse.swift in Sources */,
-				50EC379027F78DBE007500BB /* RequestManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -791,14 +801,6 @@
 				minimumVersion = 0.6.3;
 			};
 		};
-		5063B72527F815CE00AFB12F /* XCRemoteSwiftPackageReference "RxSwift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ReactiveX/RxSwift";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.0.0;
-			};
-		};
 		5063B72E27F82BD100AFB12F /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
@@ -846,21 +848,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 505B87A927F8D5E8008AE828 /* XCRemoteSwiftPackageReference "AnyCodable" */;
 			productName = AnyCodable;
-		};
-		5063B72627F815CE00AFB12F /* RxCocoa */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5063B72527F815CE00AFB12F /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxCocoa;
-		};
-		5063B72827F815CE00AFB12F /* RxRelay */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5063B72527F815CE00AFB12F /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxRelay;
-		};
-		5063B72A27F815CE00AFB12F /* RxSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5063B72527F815CE00AFB12F /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxSwift;
 		};
 		5063B72F27F82BD100AFB12F /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
