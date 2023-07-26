@@ -41,7 +41,7 @@ final class CombineTests : XCTestCase {
         waitForExpectations(timeout: 0.3)
 
 
-        let isCalledExpectation = expectation(description: "Expected to not be called because it is not stored")
+        let isCalledExpectation = expectation(description: "Expected to be called because it is stored")
         publisher.sink { value in
             XCTAssertEqual(expectedValue, value)
             isCalledExpectation.fulfill()
