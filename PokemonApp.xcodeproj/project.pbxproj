@@ -43,6 +43,7 @@
 		50EC378827F77882007500BB /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 50EC378727F77882007500BB /* CombineMoya */; };
 		50EC378A27F77882007500BB /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 50EC378927F77882007500BB /* Moya */; };
 		50EC379527F790BD007500BB /* PokemonsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50EC379427F790BD007500BB /* PokemonsResponse.swift */; };
+		5104AD322A710A4400D6AF60 /* Capitalized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AB23B62A70F55D00867EC2 /* Capitalized.swift */; };
 		51AB23B72A70F55D00867EC2 /* Capitalized.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AB23B62A70F55D00867EC2 /* Capitalized.swift */; };
 		51C459022A6FA491000A2301 /* TitleValueStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C459012A6FA491000A2301 /* TitleValueStack.swift */; };
 		51C459042A6FC2A2000A2301 /* CombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51C459032A6FC2A2000A2301 /* CombineTests.swift */; };
@@ -449,6 +450,7 @@
 				5060845F27F9A25A00FB2359 /* PokemonDetailed.swift in Sources */,
 				51C459042A6FC2A2000A2301 /* CombineTests.swift in Sources */,
 				5060846127F9B4FB00FB2359 /* PokeAPI.swift in Sources */,
+				5104AD322A710A4400D6AF60 /* Capitalized.swift in Sources */,
 				5060845E27F9A0DF00FB2359 /* PokemonsResponse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

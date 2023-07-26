@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import XCTest
+@testable import PokemonApp
 
 
 final class CombineTests : XCTestCase {
