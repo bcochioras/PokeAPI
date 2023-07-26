@@ -1,3 +1,3 @@
 # PokeAPI test project
 
-Testing Full RxSwift data loading and Moya
+Example of using SnapKit, Moya, Combine, Property Wrappers and async/await
